@@ -1,0 +1,18 @@
+@base_url = http://localhost:3000
+
+### GET Request
+GET {{base_url}}/api/items
+
+
+### PUT Request
+PUT {{base_url}}/api/items/651622af0f5058f05cc478d1
+Content-Type: application/json
+
+{
+  "name": "Updated Item",
+  "quantity": "Twenty-five"
+}
+
+### DELETE Request
+DELETE {{base_url}}/api/items/651622e10f5058f05cc478d2
+
