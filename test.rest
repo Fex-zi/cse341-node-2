@@ -9,7 +9,7 @@ PUT {{base_url}}/api/items/651622af0f5058f05cc478d1
 Content-Type: application/json
 
 {
-  "name": "Updated Item",
+  "name": "Updated Item-2",
   "quantity": "Twenty-five"
 }
 

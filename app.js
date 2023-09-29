@@ -10,6 +10,11 @@ app.use(bodyParser.json());
 // Connect to the database
 require('./db/connection');
 
+// Define a route for the homepage
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
 app.use('/api/items', itemRoutes);
 
 app.use((err, req, res, next) => {
