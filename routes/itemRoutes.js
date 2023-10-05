@@ -12,6 +12,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST a new item
+router.post('/', async (req, res) => {
+  try {
+    const { name, quantity } = req.body;
+    if (!name || !quantity) {
+      return res.status(400).json({ error: 'Bad Request' });
+    }
+
+    const item = new Item({ name, quantity });
+    await item.save();
+
+    res.status(201).json({ message: 'Item created successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.put('/:id', async (req, res) => {
   try {
     const { name, quantity } = req.body;

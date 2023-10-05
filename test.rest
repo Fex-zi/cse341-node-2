@@ -3,13 +3,21 @@
 ### GET Request
 GET {{base_url}}/api/items
 
+### POST Request
+POST {{base_url}}/api/items
+Content-Type: application/json
+
+{
+  "name": "New-user-Item-9",
+  "quantity": "Twenty-2"
+}
 
 ### PUT Request
 PUT {{base_url}}/api/items/651622af0f5058f05cc478d1
 Content-Type: application/json
 
 {
-  "name": "Updated Item-2",
+  "name": "Updated Item-7",
   "quantity": "Twenty-five"
 }
 
