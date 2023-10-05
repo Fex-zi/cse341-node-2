@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy; 
+require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
@@ -26,27 +27,49 @@ app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: tr
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configure GitHub authentication strategy
 passport.use(new GitHubStrategy({
-  clientID: 'YOUR_GITHUB_CLIENT_ID',
-  clientSecret: 'YOUR_GITHUB_CLIENT_SECRET',
-  callbackURL: 'http://localhost:3000/auth/github/callback'
-},
-  (accessToken, refreshToken, profile, done) => {
-    // authentication logic here
-    // typically save the user to the database or perform other actions
-    return done(null, profile);
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  callbackURL: process.env.GITHUB_CALLBACK_URL
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    // Check if the user exists in the database
+    const existingUser = await User.findOne({ githubId: profile.id });
+
+    if (existingUser) {
+      return done(null, existingUser);
+    }
+
+    // If user doesn't exist, create a new user in the database
+    const newUser = new User({
+      githubId: profile.id,
+      username: profile.username,
+      displayName: profile.displayName,
+      // ... other relevant user data you want to save
+    });
+
+    await newUser.save();
+    return done(null, newUser);
+  } catch (error) {
+    return done(error, null);
   }
-));
+}));
 
 // Serialize user info into session
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
 });
+
+// ...
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

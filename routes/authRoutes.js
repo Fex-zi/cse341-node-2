@@ -9,16 +9,22 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'] })
 
 // GitHub authentication callback route
 router.get('/github/callback',
+  (req, res, next) => {
+    console.log('Callback called');
+    next();
+  },
   passport.authenticate('github', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/dashboard'); // Redirect to the dashboard after successful login
+    res.redirect('/dashboard');
   }
 );
+
 
 // Logout route
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+
 
 module.exports = router;
