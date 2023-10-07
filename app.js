@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 require('./db/connection');
 
 // Configure session
-app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: true }));
+app.use(session({ secret: 'secret-key', resave: true, saveUninitialized: true }));
 
 // Initialize Passport and session
 app.use(passport.initialize());
