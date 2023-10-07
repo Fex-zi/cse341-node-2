@@ -8,3 +8,5 @@ updates for github localhost authRoutes
 Home url : http://localhost:3000
 callback url : http://localhost:3000/auth/github/callback
 
+change auth for put, delete, and POST
+from app. to route.

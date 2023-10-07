@@ -53,17 +53,17 @@ const authenticate = (req, res, next) => {
 
 // POST: Create a new item
 app.post('/api/items', authenticate, async (req, res) => {
-  // Logic to create a new item
+ 
 });
 
 // PUT: Update an item
-router.put('/api/items/:id', authenticate, async (req, res) => {
-  // Logic to update an item
+app.put('/api/items/:id', authenticate, async (req, res) => {
+  
 });
 
 // DELETE: Delete an item
-router.delete('/api/items/:id', authenticate, async (req, res) => {
-  // Logic to delete an item
+app.delete('/api/items/:id', authenticate, async (req, res) => {
+  
 });
 
 // Serve Swagger UI
