@@ -1,19 +1,19 @@
-// app.js
-
 const express = require('express');
+const router = express.Router();
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const GitHubStrategy = require('passport-github2').Strategy; 
-require('dotenv').config();
+const User = require('./models/user');
+const itemRoutes = require('./routes/itemRoutes');  
+const authRoutes = require('./routes/authRoutes');  
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
-
-const itemRoutes = require('./routes/itemRoutes');
-const authRoutes = require('./routes/authRoutes');
-const swaggerUi = require('swagger-ui-express');
-const swaggerFile = require('./swagger_output.json');
 
 app.use(bodyParser.json());
 
@@ -27,39 +27,10 @@ app.use(session({ secret: 'your-secret-key', resave: true, saveUninitialized: tr
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.GITHUB_CALLBACK_URL
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    // Check if the user exists in the database
-    const existingUser = await User.findOne({ githubId: profile.id });
 
-    if (existingUser) {
-      return done(null, existingUser);
-    }
-
-    // If user doesn't exist, create a new user in the database
-    const newUser = new User({
-      githubId: profile.id,
-      username: profile.username,
-      displayName: profile.displayName,
-      // ... other relevant user data you want to save
-    });
-
-    await newUser.save();
-    return done(null, newUser);
-  } catch (error) {
-    return done(error, null);
-  }
-}));
-
-// Serialize user info into session
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -69,14 +40,38 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// ...
+const authenticate = (req, res, next) => {
+  if (req.url.startsWith('/api-docs')) {
+    return next();
+  }
+
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ error: 'Unauthorized' });
+};
+
+// POST: Create a new item
+router.post('/api/items', authenticate, async (req, res) => {
+  
+});
+
+// PUT: Update an item
+router.put('/api/items/:id', authenticate, async (req, res) => {
+ 
+});
+
+// DELETE: Delete an item
+router.delete('/api/items/:id', authenticate, async (req, res) => {
+  
+});
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // Define routes
-app.use('/api/items', itemRoutes);
 app.use('/auth', authRoutes);
+app.use('/api/items', itemRoutes);
 
 // Define the homepage route
 app.get('/', (req, res) => {

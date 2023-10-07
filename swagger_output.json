@@ -32,10 +32,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
+                "username": {
                   "example": "any"
                 },
-                "quantity": {
+                "displayName": {
                   "example": "any"
                 }
               }
@@ -71,10 +71,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
+                "username": {
                   "example": "any"
                 },
-                "quantity": {
+                "displayName": {
                   "example": "any"
                 }
               }
@@ -108,7 +108,7 @@
         ],
         "responses": {
           "204": {
-            "description": "User Deleted Successfully"
+            "description": "No Content"
           },
           "404": {
             "description": "Not Found"

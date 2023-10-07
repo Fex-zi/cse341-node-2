@@ -7,18 +7,18 @@ GET {{base_url}}/api/items
 POST {{base_url}}/api/items
 Content-Type: application/json
 
-{
-  "name": "New-user-Item-9",
-  "quantity": "Twenty-2"
+{  
+  "username": "New-user-now-9",
+  "displayName": "Twe-2"
 }
 
 ### PUT Request
-PUT {{base_url}}/api/items/651622af0f5058f05cc478d1
+PUT {{base_url}}/api/items/651e3e38b0ce31abad07b399
 Content-Type: application/json
 
 {
-  "name": "Updated Item-7",
-  "quantity": "Twenty-five"
+  "username": "Updated Item-7",
+  "displayName": "Twenty-five"
 }
 
 ### DELETE Request
