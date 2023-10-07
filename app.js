@@ -40,20 +40,19 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const authenticate = (req, res, next) => {
-  if (req.url.startsWith('/api-docs')) {
-    return next();
+  // Check if the request is authenticated
+  if (req.isAuthenticated()) {
+    return next(); // User is authenticated, proceed to the next middleware
   }
 
-  if (req.isAuthenticated()) {
-    return next();
-  }
+  // User is not authenticated, respond with unauthorized error
   res.status(401).json({ error: 'Unauthorized' });
 };
 
 
 
 // POST: Create a new item
-router.post('/api/items', authenticate, async (req, res) => {
+app.post('/api/items', authenticate, async (req, res) => {
   // Logic to create a new item
 });
 
@@ -73,7 +72,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 // Define routes
 app.use('/auth', authRoutes);
 app.use('/api/items', itemRoutes);
-app.use('/', router);
+
 
 // Route to display user info 
 app.get('/', (req, res) => {
