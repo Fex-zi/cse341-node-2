@@ -9,9 +9,9 @@ const doc = {
     description: 'Documentation for my API',
     version: '1.0.0',
   },
-  host: 'localhost:3000', 
+  host: 'node2-d2rh.onrender.com', //localhost:3000
   basePath: '/api/items',
-  schemes: ['http'],
+  schemes: ['https'], //http
 };
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
