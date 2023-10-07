@@ -83,6 +83,14 @@ app.get('/', (req, res) => {
   }
 });
 
+// Express.js example for setting CORS headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
