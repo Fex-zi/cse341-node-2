@@ -2,3 +2,9 @@ https://node2-d2rh.onrender.com
 
 https://github.com/Fex-zi/cse341-node-2.git
 
+
+//
+updates for github localhost authRoutes
+Home url : http://localhost:3000
+callback url : http://localhost:3000/auth/github/callback
+
